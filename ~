@@ -1,0 +1,30 @@
+package main
+
+import (
+	"fmt"
+        "sync"	
+)
+
+func main() {
+    var wg sync.WaitGroup
+    goRoutine := 15
+    wg.Add(goRoutine)
+    var inxd = goRoutine
+
+    msgPrinter := func(msg string, inx int, goRoutine int) {
+        inxd = inxd - 1 
+        fmt.Printf("Printer %s, ID:%d, goRoutinxd: %d\n",  msg, inx, inxd)
+        defer wg.Done()
+
+    }
+
+    for i := 0;  i < goRoutine; i++ { 
+      go msgPrinter("First  goMSG ", i, goRoutine)
+      go msgPrinter("Second goMSG ", i, goRoutine)
+    }
+       
+    wg.Wait()
+
+}
+
+
